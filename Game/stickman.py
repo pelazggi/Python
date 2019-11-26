@@ -22,7 +22,7 @@ class Game:
                   self.sprites = []
                   self.running = True
                   self.game_start_text = self.canvas.create_text(450, 450, text='YOU CAN!')
-                  self.game_over_text = self.canvas.create_text(40, 20, text='GAME OVER!', state='hidden')#текстът е скрит
+                  self.game_over_text = self.canvas.create_text(40, 20, text='GAME OVER!', state='hidden')#текстът е с
                   
 
          def mainloop(self):
@@ -31,10 +31,10 @@ class Game:
                                     for sprite in self.sprites:
                                              sprite.move()
                                     self.tk.update_idletasks()
-                                    self.canvas.itemconfig(self.game_over_text, state='normal')#тук трябва текcта трябва да се покаже
+                                    self.canvas.itemconfig(self.game_over_text, state='normal')
                                     self.tk.update()
                                     time.sleep(0.01)
-                                    if sf.x == door.coordinates.x1 and sf.y == door.coordinates.y1:#ако човечето е с координати равни на вратата извикваме end
+                                    if sf.x == door.coordinates.x1 and sf.y == door.coordinates.y1:
                                         sf.end(door)
                                       
 class Coords:
@@ -62,8 +62,8 @@ def within_y(co1, co2):
          else:
                   return False
              
-def collided_left(co1, co2):#тази функция връща True, ако обект от класа Coords се сблъска в лявата страна с друг обект
-         if within_y(co1, co2):# co1 е първият обект а co2- вторият
+def collided_left(co1, co2):
+         if within_y(co1, co2):
                   if co1.x1 <= co2.x2 and co1.x1 >= co2.x1:
                       
                       
@@ -75,21 +75,21 @@ def collided_left(co1, co2):#тази функция връща True, ако о�
          
 
          
-def collided_right(co1, co2):#тази функция връща True, ако обект от класа Coords се сблъска в дясната страна с друг обект
+def collided_right(co1, co2):
         if within_y(co1, co2):
                 if co1.x2 >= co2.x1 and co1.x2 <= co2.x2:
                         return True
                 return False   
          
          
-def collided_top(co1, co2):#тази функция връща True, ако обект от класа Coords се сблъска в отгоре с друг обект
+def collided_top(co1, co2):
         if within_x(co1, co2):
                 if co1.y1 <= co2.y2 and co1.y1 >= co2.y1:
                         return True
                 return False 
          
 
-def collided_bottom(y, co1, co2):#тази функция връща True, ако обект от класа Coords се сблъска огдолу с друг обект
+def collided_bottom(y, co1, co2):
        if within_x(co1, co2):
                 y_calc = co1.y2 + y
                 if y_calc >= co2.y1 and y_calc <= co2.y2:
@@ -115,14 +115,14 @@ class PlatformSprite(Sprite):
                   self.image = game.canvas.create_image(x, y, image=self.photo_image, anchor='nw')
                   self.coordinates = Coords(x, y, x + width, y + height)
 
-class MovingPlatformSprite(PlatformSprite):#създаваме клас за мърдащата платформа
+class MovingPlatformSprite(PlatformSprite):
         def __init__(self, game, photo_image, x, y, width, height):
                 PlatformSprite.__init__(self, game, photo_image, x, y, width, height)
-                self.x = 2#задаваме променлива х със стойност 2
-                self.counter = 0#създаваме брояч, който ще сигнализира кога платформата трябва да смени посоката си на движение 
-                self.last_time = time.time()#за да не се движи прекалено бързо платформата ще използваме last_time, за да забави движението
-                self.width = width#променлива за ширина
-                self.height = height#променлива за дължина
+                self.x = 2
+                self.counter = 0
+                self.last_time = time.time()
+                self.width = width
+                self.height = height
 
         def coords(self):
                 xy = self.game.canvas.coords(self.image)
@@ -137,21 +137,21 @@ class MovingPlatformSprite(PlatformSprite):#създаваме клас за м�
                         self.game.canvas.move(self.image, 0, self.x)
                         self.counter += 1
                         if self.counter > 20:
-                                self.x *= -1#променяме посоката на движение, умножавайки х по -1
-                                self.counter = 0# по този начин платформата няма да продължи да се движи все по-нагоре
+                                self.x *= -1
+                                self.counter = 0
 
-class DoorSprite(Sprite):#създаваме клас за вратата
+class DoorSprite(Sprite):
         def __init__(self, game, x, y, width, height):
-                Sprite.__init__(self, game)#из
-                self.closed_door = PhotoImage(file="door1.gif")#създаваме си променлива closed_door и добавяме картинка
-                self.open_door = PhotoImage(file="door2.gif")#създаваме си променлива open_door и добавяме картинка
+                Sprite.__init__(self, game)
+                self.closed_door = PhotoImage(file="door1.gif")
+                self.open_door = PhotoImage(file="door2.gif")
                 self.image = game.canvas.create_image(x, y, image=self.closed_door, anchor='nw')
-                self.coordinates = Coords(x, y, x + (width / 2), y + height)#задаваме координати на изображенията
+                self.coordinates = Coords(x, y, x + (width / 2), y + height)
                 self.endgame = True
 
         def opendoor(self):
-                self.game.canvas.itemconfig(self.image, image=self.open_door)#променяме изобразяваната картинка с тази, съхранена в променливата
-                self.game.tk.update_idletasks()#ако не добавим тази функция, изображението няма да се смени веднага
+                self.game.canvas.itemconfig(self.image, image=self.open_door)
+                self.game.tk.update_idletasks()
 
         def closedoor(self):
                 self.game.canvas.itemconfig(self.image, image=self.closeddoor)
@@ -319,7 +319,7 @@ g.sprites.append(platform7)
 g.sprites.append(platform8)
 g.sprites.append(platform9)
 g.sprites.append(platform10)
-door = DoorSprite(g, 45, 30, 40, 35)#добавяме вратата в списъкa 
+door = DoorSprite(g, 45, 30, 40, 35)
 g.sprites.append(door)
 sf = StickFigureSprite(g)
 g.sprites.append(sf)
